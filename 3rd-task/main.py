@@ -2,6 +2,7 @@ import cv2
 import utils
 # part A: done read the image and display each of its components
 image = cv2.imread('image1.bmp')
+image = utils.compress(image, 4)
 utils.imgDisplay('OriginalImage', image)
 imgRedComponent = utils.getImageComponent('red', image)
 utils.imgDisplay("red",imgRedComponent)

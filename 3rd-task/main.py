@@ -1,8 +1,22 @@
 import cv2
 import utils
+import numpy as np
+
 # part A: done read the image and display each of its components
 image = cv2.imread('image1.bmp')
-image = utils.compress(image, 4)
+
+# Get the value of m from the user
+while True:
+  m = input('Please enter the value of m (a value from 1 to 4)\n')
+  if m in ['1','2','3','4']:
+    break
+
+# Compress the image
+compressedImage = utils.compress(image, int(m))
+
+np.save('old.npy', image)
+np.save('new.npy', compressedImage)
+
 utils.imgDisplay('OriginalImage', image)
 imgRedComponent = utils.getImageComponent('red', image)
 utils.imgDisplay("red",imgRedComponent)

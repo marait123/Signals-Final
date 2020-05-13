@@ -29,6 +29,8 @@ def blockDct(block):
     return dct(dct(block.T, norm='ortho').T, norm='ortho')
 
 # A function that compresses images
+
+
 def compress(image, m):
     # Extract the number of columns and rows from the dimensions of the image
     rows, cols, = image.shape[0:2]
@@ -36,27 +38,33 @@ def compress(image, m):
     # Calculating the dimensions of the new array and initialzing it
     newrows = rows / 8 * m
     newcols = cols / 8 * m
-    newImage = np.zeros((int(newrows), int(newcols), 3))
+    compressed = np.zeros((int(newrows), int(newcols), 3), dtype=np.float16)
 
     # Changing range of values from 0-255 to (-128)-127
     image = image.astype('int16') - 128
 
-    # Calculating DCT for the image in place
+    # Calculating DCT for the image
     # we calculate the DCT by slicing an 8x8 matrix and calculate its DCT matrix
-    for i in range(0, rows, 8):
-        for j in range(0, cols, 8):
-            for k in range(3):
-                image[i:i+8, j:j+8, k] = blockDct(image[i:i+8, j:j+8, k])
-
-  # Slicing the top left mxm matrix from each block
+    # and then slicing the top left mxm matrix from each block
     for i in range(0, int(rows/8)):
         for j in range(0, int(cols/8)):
             for k in range(3):
+
+                # Calculating the indices on the compressed image
                 newy = i*m
                 newx = j*m
+
+                # calculating the indices on the original image
                 oldx = j*8
                 oldy = i*8
-                newImage[newy:newy+m, newx:newx+m,
-                         k] = image[oldy:oldy+m, oldx:oldx+m, k]
-    return newImage
 
+                # Calculating the dct
+                sliced = blockDct(image[oldy:oldy+8, oldx:oldx+8, k])
+
+                # Slicing the top left mxm matrix
+                sliced = sliced[0:m, 0:m]
+
+                # Assiging the new dct values to the new image
+                compressed[newy:newy+m, newx:newx+m, k] = sliced
+
+    return compressed

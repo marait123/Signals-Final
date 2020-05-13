@@ -9,4 +9,3 @@ imgBlueComponent = utils.getImageComponent('blue', image)
 utils.imgDisplay("blue",imgBlueComponent)
 imgGreenComponent = utils.getImageComponent('green', image)
 utils.imgDisplay("green",imgGreenComponent)
-

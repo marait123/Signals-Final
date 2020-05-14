@@ -11,11 +11,15 @@ while True:
   if m in ['1','2','3','4']:
     break
 
+m = int(m)
 # Compress the image
-compressedImage = utils.compress(image, int(m))
+compressedImage = utils.compress(image, m)
 
 np.save('old.npy', image)
 np.save('new.npy', compressedImage)
+
+image = utils.decompress(compressedImage, m)
+image = cv2.resize(image, (960,540))
 
 utils.imgDisplay('OriginalImage', image)
 imgRedComponent = utils.getImageComponent('red', image)

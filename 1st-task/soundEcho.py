@@ -24,8 +24,12 @@ x75[int(.75 * fs):int(audioLength + .75 * fs)] = .7 * audio
 y = (list(audio) + list(np.zeros(fs))) + x25 + x50 + x75
 
 sd.play(y[0:audioLength].astype(np.dtype('i2')), fs)
-plt.plot(y)
-plt.plot(audio)
+plt.title('audio with and before echo ')
+plt.xlabel('sample number')
+plt.ylabel('amplitude')
+plt.plot(y, label = 'y(t)')
+plt.plot(audio, label = 'x(t)')
+plt.legend()
 plt.show()
 time.sleep(duration_s)
 
@@ -35,14 +39,18 @@ wavfile.write("audio_with_echo_after_using_given_formula.wav",fs,y[0:audioLength
 # C. find and plot the impulse response of the echo generation system
 # h is the impluse response of the system
 h = np.zeros(secondSize)
+
 h[int(0 * secondSize)] = 1
 h[int(.25 * secondSize)] = .9
 h[int(.5 * secondSize)] = .8
 h[int(.75 * secondSize)] = .7
 
 # plot h
-plt.plot(h)
-
+plt.title('impulse response')
+plt.xlabel('sample number')
+plt.ylabel('amplitude')
+plt.plot(h, label = 'h(t)')
+plt.legend()
 #output impulse_response.png
 plt.savefig('sample-graph.png')
 
@@ -68,8 +76,8 @@ time.sleep(duration_s)
 wavfile.write("audio_with_echo_after_convolution.wav",fs,echoedAudio[0:audioLength].astype(np.dtype('i2')))
 
 #get x[n] given y[n](echoedAudio) and h[n] (h)
-xn_fft=fft.fft(echoedAudio,N)/fft.fft(h,N)
-xn=fft.ifft(xn_fft)
+xn_fft=fft(echoedAudio,N)/fft(h,N)
+xn=ifft(xn_fft)
 xn=np.real(xn)
 xn=np.around(xn)
 xn=np.array(xn)

@@ -15,11 +15,11 @@ m = int(m)
 # Compress the image
 compressedImage = utils.compress(image, m)
 
-np.save('old.npy', image)
-np.save('new.npy', compressedImage)
+np.save('image1.npy', image)
+np.save('decompressedm{}.npy'.format(m), compressedImage)
 
-image = utils.decompress(compressedImage, m)
-image = cv2.resize(image, (960,540))
+decompressedImage = utils.decompress(compressedImage, m)
+cv2.imwrite('decompressedm{}.bmp'.format(m), decompressedImage)
 
 utils.imgDisplay('OriginalImage', image)
 imgRedComponent = utils.getImageComponent('red', image)

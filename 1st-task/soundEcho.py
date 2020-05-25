@@ -4,7 +4,6 @@ import sounddevice as sd
 import time
 import matplotlib.pyplot as plt
 from scipy import fft,ifft
-
 duration_s = 4
 # a. read the the file audio1.wav
 fs, audio = wavfile.read('./audio1.wav')
@@ -30,6 +29,7 @@ plt.ylabel('amplitude')
 plt.plot(y, label = 'y(t)')
 plt.plot(audio, label = 'x(t)')
 plt.legend()
+plt.savefig('audio with and before echo.png')
 plt.show()
 time.sleep(duration_s)
 
@@ -52,11 +52,9 @@ plt.ylabel('amplitude')
 plt.plot(h, label = 'h(t)')
 plt.legend()
 #output impulse_response.png
-plt.savefig('sample-graph.png')
+plt.savefig('impulse_response.png')
 
 plt.show()
-
-
 #ly=lx+lh-1
 h_len=len(h)
 audio_len=len(audio)
@@ -82,8 +80,9 @@ xn=np.real(xn)
 xn=np.around(xn)
 xn=np.array(xn)
 xn=xn[0:audioLength]
-xn=xn.astype(np.dtype('i2'))
-
+xn=xn.astype(np.dtype('i2')) # xn is the sound after echo removal
+sd.play(xn, fs)
+time.sleep(duration_s)
 #output the audio_after_echo_removal.wav
 wavfile.write("audio_after_echo_removal.wav",fs,xn)
 

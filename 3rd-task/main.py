@@ -8,10 +8,16 @@ image = cv2.imread('image1.bmp')
 utils.imgDisplay('OriginalImage', image)
 imgRedComponent = utils.getImageComponent('red', image)
 utils.imgDisplay("red", imgRedComponent)
+cv2.imwrite("red-component.jpg", imgRedComponent)
+
 imgBlueComponent = utils.getImageComponent('blue', image)
 utils.imgDisplay("blue", imgBlueComponent)
+cv2.imwrite("blue-component.jpg", imgBlueComponent)
+
 imgGreenComponent = utils.getImageComponent('green', image)
 utils.imgDisplay("green", imgGreenComponent)
+cv2.imwrite("green-component.jpg", imgGreenComponent)
+
 
 for m in [1,2,3,4]:
   # Compress the image
